@@ -1,7 +1,6 @@
 variable "folder_id" {
   type    = string
-  default = "default"
-
+  default = "b1grtf5annaj45kv1e3p"
 }
 
 resource "yandex_vpc_network" "terraform-network" {
@@ -25,24 +24,21 @@ resource "yandex_vpc_subnet" "subnet2" {
 module "ya_instance_1" {
   source         = "./modules/instance"
   instance_image = "lemp"
-  instance_name  = "ya_instance_1"
+  instance_name  = "ya-instance-1"
+  zone_id        = yandex_vpc_subnet.subnet1.zone
   subnet_id      = yandex_vpc_subnet.subnet1.id
 }
 
 module "ya_instance_2" {
   source         = "./modules/instance"
   instance_image = "lamp"
-  instance_name  = "ya_instance_2"
+  instance_name  = "ya-instance-2"
+  zone_id        = yandex_vpc_subnet.subnet2.zone
   subnet_id      = yandex_vpc_subnet.subnet2.id
 }
 
-output "external_ip_address_server_1" {
-  value = module.ya_instance_1.external_ip_address_vm
-}
-
 resource "yandex_iam_service_account" "sa" {
-  folder_id = var.folder_id
-  name      = "sa-skillfactory"
+  name = "niardan"
 }
 
 resource "yandex_resourcemanager_folder_iam_member" "sa-editor" {
@@ -56,8 +52,8 @@ resource "yandex_iam_service_account_static_access_key" "sa-static-key" {
   description        = "static key for object storage"
 }
 
-resource "yandex_storage_bucket" "remote-state-storage" {
+resource "yandex_storage_bucket" "remote-niardan-state-storage" {
   access_key = yandex_iam_service_account_static_access_key.sa-static-key.access_key
   secret_key = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
-  bucket     = "tf-state-storage"
+  bucket     = "remote-niardan-state-storage"
 }
