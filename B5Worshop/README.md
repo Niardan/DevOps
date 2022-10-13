@@ -43,5 +43,5 @@
 
 | Name | Description |
 |------|-------------|
-| <a name="output_external_ip_address_load_balancer"></a> [external\_ip\_address\_load\_balancer](#output\_external\_ip\_address\_load\_balancer) | n/a |
+| <a name="output_external_ip_address_load_balancer"></a> [external\_ip\_address\_load\_balancer](#output\_external\_ip\_address\_load\_balancer) | load balancer external address |
 <!-- END_TF_DOCS -->

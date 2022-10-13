@@ -39,4 +39,5 @@ resource "yandex_lb_network_load_balancer" "load_balancer" {
 
 output "external_ip_address_load_balancer" {
   value = yandex_lb_network_load_balancer.load_balancer.listener[*].external_address_spec[*].address
+  description = "load balancer external address"
 }
