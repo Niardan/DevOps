@@ -11,8 +11,8 @@ terraform {
     bucket                      = "remote-niardan-state-storage"
     region                      = "ru-central1"
     key                         = "issue1/lemp.tfstate"
-    access_key                  = "key"
-    secret_key                  = "secret_key"
+    access_key                  = "YCAJEPGlHQCJmBJ_MKCUnrEa0"
+    secret_key                  = "YCNmqkKrCJGC5uNCwduSLX9HOUdks_9K0fHkgRgC"
     skip_region_validation      = true
     skip_credentials_validation = true
   }
