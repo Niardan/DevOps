@@ -1,0 +1,13 @@
+- name: Install http
+  hosts: http
+  become: yes
+  roles:
+   - http
+   - users
+
+- name: Install php
+  hosts: php
+  become: yes
+  roles:
+   - php
+   - users

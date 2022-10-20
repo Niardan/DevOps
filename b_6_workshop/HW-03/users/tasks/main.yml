@@ -1,0 +1,17 @@
+- name: Create user
+  user:
+   name: "{{user_name}}"
+   state: present
+
+- name: Create ssh directory
+  file:
+    path: "/home/{{user_name}}/.ssh/"
+    state: directory
+
+- name: Copy server key
+  copy:
+    src: id_rsa.pub
+    dest: /home/{{user_name}}/.ssh/id_rsa.pub
+    decrypt: yes
+    owner: "{{user_name}}" 
+    group: "{{user_name}}" 

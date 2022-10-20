@@ -1,0 +1,13 @@
+- name: Install Php
+  apt:
+    pkg: 
+      - php-fpm
+    state: latest
+    update_cache: yes
+
+- name: Replace php.conf
+  template:
+    src: templates/www.conf
+    dest: /etc/php/7.4/fpm/pool.d/www.conf
+  notify:
+    - Restart php
