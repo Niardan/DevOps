@@ -1,0 +1,21 @@
+- name: Create user1
+  hosts: all
+  become: yes
+  tasks: 
+  - name: Create user1
+    user:
+     name: user1
+     state: present
+     
+  - name: Create ssh directory
+    file:
+      path: /home/user1/.ssh/
+      state: directory
+
+  - name: Copy server key
+    copy:
+      src: id_rsa.pub
+      dest: /home/user1/.ssh/id_rsa.pub
+      decrypt: yes
+      owner: user1 
+      group: user1 

@@ -1,0 +1,16 @@
+- name: Postfix install or remove
+  hosts: all
+  become: yes
+  tasks: 
+  - name: Install Postfix 
+    tags: "init postfix"
+    apt:
+      name: mailutils
+      state: latest 
+      update_cache: yes
+
+  - name: Remove Postfix 
+    tags: "drop postfix"
+    apt:
+      name: mailutils
+      state: absent  
