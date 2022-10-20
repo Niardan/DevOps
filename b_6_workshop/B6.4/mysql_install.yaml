@@ -1,0 +1,53 @@
+- name: MySql Install
+  hosts: all
+  become: yes
+  vars:
+    mysql_root_password: <password>
+  tasks: 
+  
+  - name: Install Prepare
+    apt:
+      pkg:
+        - gnupg
+        - python
+        - pip
+      state: latest  
+      update_cache: yes 
+
+  - name: Add MySql Repository
+    apt:
+      deb: https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb
+      state: present
+
+  - name: Install MySQL
+    apt:
+      name: mysql-community-server
+      state: latest 
+      update_cache: yes  
+
+  - name: Start MySql
+    shell: "service mysql start"
+
+  - name: Autostart MySql
+    service: 
+      name: mysql
+      state: started
+      enabled: true
+
+  - name: Make sure pymysql is present 
+    pip:
+      name: pymysql
+      state: present
+
+  - name: Change the authentication plugin of MySQL root user to mysql_native_password
+    shell: mysql -u root -e 'UPDATE mysql.user SET plugin="mysql_native_password" WHERE user="root" AND host="localhost"'
+
+  - name: Set mysql parameters
+    mysql_user:
+      name: "root"
+      host: "localhost"
+      password: "{{mysql_root_password}}"
+      login_user: "root"
+      login_password: ""
+      priv: "*.*:ALL,GRANT"
+      state: present
