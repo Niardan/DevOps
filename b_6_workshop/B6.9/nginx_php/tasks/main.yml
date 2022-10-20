@@ -1,0 +1,31 @@
+- name: Install Nginx Web Server and php
+  apt:
+    pkg: 
+     - nginx
+     - php-fpm
+    state: latest
+    update_cache: yes
+
+- name: Replace nginx.conf
+  template:
+    src: templates/nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+- name: Create home directory for www
+  file:
+    path: "{{root_path}}"
+    state: directory
+    
+- name: Copy index.php
+  copy:
+    src: index.php
+    dest: "{{root_path}}/index.php"    
+
+- name: Add virtual domain in NGINX
+  vars:
+    fastcgi_pass_path: /run/php/php7.4-fpm.sock
+  template:
+    src: templates/default
+    dest: /etc/nginx/sites-enabled/default
+  notify:
+    - Restart nginx

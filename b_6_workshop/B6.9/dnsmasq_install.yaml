@@ -1,0 +1,5 @@
+- name: Install dnsmasq
+  hosts: all
+  become: yes
+  roles:
+   - dnsmasq

@@ -1,0 +1,5 @@
+- name: Install nginx_php
+  hosts: all
+  become: yes
+  roles:
+   - nginx_php

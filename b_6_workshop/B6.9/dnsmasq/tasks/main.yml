@@ -1,0 +1,16 @@
+  - name: Install Dnsmasq 
+    package:
+      name: dnsmasq
+      state: present
+
+  - name: Install configuration file
+    copy:
+      src:   dnsmasq.conf
+      dest: /etc/dnsmasq.conf
+      mode: '0600'
+
+  - name: Ensure service is started
+    service:
+      name: dnsmasq 
+      state: started
+      enabled: true

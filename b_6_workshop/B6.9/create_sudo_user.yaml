@@ -1,0 +1,26 @@
+- name: create_sudo_user
+  hosts: all
+  become: yes
+  tasks: 
+  - name: Create superuser group 
+    group:
+      name: superuser
+      state: present
+
+  - name: Create user2 
+    user:
+      name: user2
+      group: superuser
+      state: present
+
+  - name: Create user3 
+    user:
+      name: user3
+      group: superuser
+      state: present
+
+  - name: sudo without password for wheel group
+    copy:
+      content: '%superuser ALL=(ALL:ALL) NOPASSWD:ALL'
+      dest: /etc/sudoers.d/superuser_nopasswd
+      mode: 0440
