@@ -1,0 +1,16 @@
+  - name: Install Vsftpd
+    package:
+      name: vsftpd
+      state: present
+
+  - name: Install configuration file
+    copy:
+      src:   vsftpd.conf
+      dest: /etc/vsftpd.conf
+      mode: '0600'
+
+  - name: Ensure service is started
+    service:
+      name: vsftpd
+      state: started
+      enabled: true
