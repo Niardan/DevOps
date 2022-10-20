@@ -1,5 +1,5 @@
 - name: MySql Install
-  hosts: all
+  hosts: localhost
   become: yes
   vars:
     mysql_root_password: <password>
