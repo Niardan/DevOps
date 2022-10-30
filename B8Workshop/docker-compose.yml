@@ -1,0 +1,19 @@
+version: "3"
+services:
+  php:
+    build: . 
+    healthcheck:
+      test: curl -sS http://nginx | grep -c works
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./www/:/var/www
+      
+  nginx:
+    image: nginx
+    volumes:
+      - ./www/:/var/www
+      - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
