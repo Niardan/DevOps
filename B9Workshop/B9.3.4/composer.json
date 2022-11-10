@@ -1,0 +1,12 @@
+{
+    "name": "kotow/b9.3.4",
+    "authors": [
+        {
+            "name": "Vadim Kotov",
+            "email": "v.kotov@kefirgames.com"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "6.0"
+    }
+}
