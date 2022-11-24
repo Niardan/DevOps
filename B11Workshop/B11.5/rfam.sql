@@ -1,1 +1,1 @@
-select * from full_region limit 4
+select * from full_region limit 1
