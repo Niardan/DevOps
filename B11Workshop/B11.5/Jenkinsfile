@@ -1,8 +1,15 @@
+INDEX_PATH = "$PWD/B11Workshop/ProjectWork/index.html"
+
 node {
     stage('CloneRepo') { 
         git 'https://github.com/Niardan/DevOps.git'
     }
-    stage('Run') {
-                  sh "mysql --user rfamro --host mysql-rfam-public.ebi.ac.uk --port 4497 --database Rfam < B11Workshop/B11.5/rfam.sql"
-    }
+	    try {
+         stage('Build Nginx') {
+                  sh "docker run --name some-nginx -v INDEX_PATH:/usr/share/nginx/html:ro -p 9889:80 -d nginx"
+             }
+         stage('Check File') {
+                  sh "curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:9889"
+             }
+  }
 }
