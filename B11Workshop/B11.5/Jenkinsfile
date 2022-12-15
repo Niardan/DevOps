@@ -1,15 +1,23 @@
-INDEX_PATH = "$PWD/B11Workshop/ProjectWork/index.html"
+INDEX_PATH = "B11Workshop/ProjectWork/index1.html"
 
-node {
-    stage('CloneRepo') { 
+    node {
+    stage('CloneRepo') {
         git 'https://github.com/Niardan/DevOps.git'
     }
-	    try {
-         stage('Build Nginx') {
-                  sh "docker run --name some-nginx -v INDEX_PATH:/usr/share/nginx/html:ro -p 9889:80 -d nginx"
-             }
-         stage('Check File') {
-                  sh "curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:9889"
-             }
-  }
+    stage('Build Nginx') {
+        docker.image('nginx').withRun('-v ${WORKSPACE}/${INDEX_PATH}:/usr/share/nginx/html:ro -p 9889:80') {
+            c->
+            string status = sh(script: "curl -sLI -w '%{http_code}' http://127.0.0.1:9889 -o /dev/null", returnStdout: true)
+                echo "Status: ${status}"
+				
+                online_md5 = "$(curl -sL http://127.0.0.1:9889/index.html | md5sum | cut -d ' ' -f 1)"
+                local_md5 = "$(md5sum ${WORKSPACE}/${INDEX_PATH} | cut -d ' ' -f 1)"
+
+                if ["$online_md5" = "$local_md5"];
+            then
+            echo "hurray, they are equal!"
+            fi
+
+    }
+}
 }

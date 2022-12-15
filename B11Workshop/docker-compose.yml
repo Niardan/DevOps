@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  image-server:
+    container_name: image-server  
+    image: niardan/sources:image_server
+    restart: always  
+    volumes:
+      - ./data/i/:/app/Img/
+      - ./data/p/:/app/Pht/   
+    command: /app/ImageServer foreground
+    ports:
+      - 9154:9154/udp   
+
